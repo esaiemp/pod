@@ -1,0 +1,642 @@
+﻿[
+    {
+        "id":  "tblcDiTTZmgyJ2Hvr",
+        "name":  "Loads",
+        "primaryFieldId":  "fld7KcWh48u1CbXWB",
+        "fields":  [
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fld7KcWh48u1CbXWB",
+                           "name":  "LoadNumber"
+                       },
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fldwHpP8vNb0Q35D5",
+                           "name":  "Customer"
+                       },
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fldnFlXuoUKbo50ZE",
+                           "name":  "Driver"
+                       },
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fldRK5W6P82DuDcvl",
+                           "name":  "PickupLocation"
+                       },
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fldjJShzR6J0aXT1H",
+                           "name":  "DeliveryLocation"
+                       },
+                       {
+                           "type":  "singleSelect",
+                           "options":  {
+                                           "choices":  [
+                                                           {
+                                                               "id":  "seldwSK3KnR1USCkk",
+                                                               "name":  "Awaiting POD",
+                                                               "color":  "blueLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selEZE8w03oCREdAQ",
+                                                               "name":  "Received",
+                                                               "color":  "cyanLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selKWgE4bh3f6T4na",
+                                                               "name":  "Exception",
+                                                               "color":  "tealLight2"
+                                                           }
+                                                       ]
+                                       },
+                           "id":  "flddZj7IRCMADL5HF",
+                           "name":  "PODStatus"
+                       },
+                       {
+                           "type":  "singleSelect",
+                           "options":  {
+                                           "choices":  [
+                                                           {
+                                                               "id":  "seldoSfxX82DmfAuN",
+                                                               "name":  "Not Ready",
+                                                               "color":  "blueLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selLPlJc8ReLx1TT0",
+                                                               "name":  "Ready",
+                                                               "color":  "cyanLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selOje0GAGJDVKpgi",
+                                                               "name":  "Hold",
+                                                               "color":  "tealLight2"
+                                                           }
+                                                       ]
+                                       },
+                           "id":  "fldK4Sm6gQeW8J4fc",
+                           "name":  "InvoiceStatus"
+                       },
+                       {
+                           "type":  "date",
+                           "options":  {
+                                           "dateFormat":  {
+                                                              "name":  "local",
+                                                              "format":  "l"
+                                                          }
+                                       },
+                           "id":  "fldHpYJguQrI07cVa",
+                           "name":  "DeliveryDate"
+                       },
+                       {
+                           "type":  "url",
+                           "id":  "fldnPvwXozIitAb4S",
+                           "name":  "PODFileUrl"
+                       },
+                       {
+                           "type":  "dateTime",
+                           "options":  {
+                                           "dateFormat":  {
+                                                              "name":  "local",
+                                                              "format":  "l"
+                                                          },
+                                           "timeFormat":  {
+                                                              "name":  "12hour",
+                                                              "format":  "h:mma"
+                                                          },
+                                           "timeZone":  "client"
+                                       },
+                           "id":  "fldA5pL41WXLu6Blh",
+                           "name":  "PODReceivedDate"
+                       },
+                       {
+                           "type":  "multilineText",
+                           "id":  "fldpZrLb8o21i1PNT",
+                           "name":  "ExceptionReason"
+                       },
+                       {
+                           "type":  "multipleRecordLinks",
+                           "options":  {
+                                           "linkedTableId":  "tblGbGrM86Vo5Zkbf",
+                                           "isReversed":  false,
+                                           "prefersSingleRecordLink":  false,
+                                           "inverseLinkFieldId":  "fldcWBiWkTW2RLSY8"
+                                       },
+                           "id":  "fld7bUKdTwioQwquh",
+                           "name":  "POD Submissions"
+                       }
+                   ],
+        "views":  [
+                      {
+                          "id":  "viwJ2gyULmwDVkccJ",
+                          "name":  "Grid view",
+                          "type":  "grid"
+                      }
+                  ]
+    },
+    {
+        "id":  "tblghWSyHgIl3Xv3j",
+        "name":  "POD Exceptions",
+        "primaryFieldId":  "fldb8mxLj2OQgR1BL",
+        "fields":  [
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fldb8mxLj2OQgR1BL",
+                           "name":  "LoadNumber"
+                       },
+                       {
+                           "type":  "multilineText",
+                           "id":  "fldqQyxazUCotKTHJ",
+                           "name":  "Reason"
+                       },
+                       {
+                           "type":  "singleSelect",
+                           "options":  {
+                                           "choices":  [
+                                                           {
+                                                               "id":  "selmwJ51upBtuwJzw",
+                                                               "name":  "Pending Review",
+                                                               "color":  "blueLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selAOEKdgOW80FATz",
+                                                               "name":  "In Review",
+                                                               "color":  "cyanLight2"
+                                                           },
+                                                           {
+                                                               "id":  "sel0NbCFiCDtlN5Wp",
+                                                               "name":  "Awaiting Resubmission",
+                                                               "color":  "tealLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selxQZkU8g9Mz8KUb",
+                                                               "name":  "Processing",
+                                                               "color":  "greenLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selLlJtqiAKSbiLlh",
+                                                               "name":  "Resolved",
+                                                               "color":  "yellowLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selCLFDuvozKrqE3o",
+                                                               "name":  "Rejected",
+                                                               "color":  "orangeLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selEmj0V1YSZzmesR",
+                                                               "name":  "Resolution Failed",
+                                                               "color":  "redLight2"
+                                                           }
+                                                       ]
+                                       },
+                           "id":  "fldGEMXGersY9Mu4S",
+                           "name":  "Status"
+                       },
+                       {
+                           "type":  "url",
+                           "id":  "fldIGn6lBRhVtB4tz",
+                           "name":  "DocumentURL"
+                       },
+                       {
+                           "type":  "dateTime",
+                           "options":  {
+                                           "dateFormat":  {
+                                                              "name":  "iso",
+                                                              "format":  "YYYY-MM-DD"
+                                                          },
+                                           "timeFormat":  {
+                                                              "name":  "24hour",
+                                                              "format":  "HH:mm"
+                                                          },
+                                           "timeZone":  "client"
+                                       },
+                           "id":  "fld1SUZpgUNTSiWwq",
+                           "name":  "CreatedAt"
+                       },
+                       {
+                           "type":  "multilineText",
+                           "id":  "fldsWAeBhYQHzsJrx",
+                           "name":  "Reasons"
+                       },
+                       {
+                           "type":  "multipleRecordLinks",
+                           "options":  {
+                                           "linkedTableId":  "tblGbGrM86Vo5Zkbf",
+                                           "isReversed":  false,
+                                           "prefersSingleRecordLink":  false,
+                                           "inverseLinkFieldId":  "fldWJ3wV4ydEpEvYq"
+                                       },
+                           "id":  "fldo1wwqeLkQzJPUs",
+                           "name":  "POD Submissions"
+                       },
+                       {
+                           "type":  "singleSelect",
+                           "options":  {
+                                           "choices":  [
+                                                           {
+                                                               "id":  "seljBMA2c9wKeOANW",
+                                                               "name":  "Approve",
+                                                               "color":  "blueLight2"
+                                                           },
+                                                           {
+                                                               "id":  "sel2s3QB27rdGUl5y",
+                                                               "name":  "Request Resubmission",
+                                                               "color":  "cyanLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selDqPXoYMSrCHqzS",
+                                                               "name":  "Reject",
+                                                               "color":  "tealLight2"
+                                                           }
+                                                       ]
+                                       },
+                           "id":  "fldTydRBZBB985SUn",
+                           "name":  "ResolutionAction"
+                       },
+                       {
+                           "type":  "multilineText",
+                           "id":  "fld2Lg0qaoak5RpLa",
+                           "name":  "ResolutionNotes"
+                       },
+                       {
+                           "type":  "aiText",
+                           "options":  {
+                                           "referencedFieldIds":  [
+                                                                      "fld2Lg0qaoak5RpLa"
+                                                                  ],
+                                           "prompt":  [
+                                                          "Summarize the following resolution notes concisely in 1-2 sentences:\n\n",
+                                                          {
+                                                              "field":  {
+                                                                            "fieldId":  "fld2Lg0qaoak5RpLa"
+                                                                        }
+                                                          }
+                                                      ]
+                                       },
+                           "id":  "fldvnUaYKfRsoV2EO",
+                           "name":  "Summary (ResolutionNotes)"
+                       },
+                       {
+                           "type":  "aiText",
+                           "options":  {
+                                           "referencedFieldIds":  [
+                                                                      "fld2Lg0qaoak5RpLa"
+                                                                  ],
+                                           "prompt":  [
+                                                          "Write a short, punchy headline (under 10 words) for the following resolution notes:\n\n",
+                                                          {
+                                                              "field":  {
+                                                                            "fieldId":  "fld2Lg0qaoak5RpLa"
+                                                                        }
+                                                          }
+                                                      ]
+                                       },
+                           "id":  "fldBH2LnYmgw03e2X",
+                           "name":  "Headline (ResolutionNotes)"
+                       },
+                       {
+                           "type":  "email",
+                           "id":  "fld31T0VEH7cJsQiR",
+                           "name":  "ResolvedBy"
+                       },
+                       {
+                           "type":  "date",
+                           "options":  {
+                                           "dateFormat":  {
+                                                              "name":  "local",
+                                                              "format":  "l"
+                                                          }
+                                       },
+                           "id":  "fldgDQMN5Q68nwV7p",
+                           "name":  "ResolvedAt"
+                       },
+                       {
+                           "type":  "multipleRecordLinks",
+                           "options":  {
+                                           "linkedTableId":  "tblGbGrM86Vo5Zkbf",
+                                           "isReversed":  false,
+                                           "prefersSingleRecordLink":  true,
+                                           "inverseLinkFieldId":  "fldOk2JCVkmYenUlP"
+                                       },
+                           "id":  "fldawVAi9MNBTtXBs",
+                           "name":  "Submission"
+                       },
+                       {
+                           "type":  "multipleLookupValues",
+                           "options":  {
+                                           "isValid":  true,
+                                           "recordLinkFieldId":  "fldawVAi9MNBTtXBs",
+                                           "fieldIdInLinkedTable":  "fldGAJiroibX62hoM",
+                                           "result":  {
+                                                          "type":  "singleLineText"
+                                                      }
+                                       },
+                           "id":  "fldaov2lP6rrMJacC",
+                           "name":  "Submission Reference (from Submission)"
+                       },
+                       {
+                           "type":  "multipleLookupValues",
+                           "options":  {
+                                           "isValid":  true,
+                                           "recordLinkFieldId":  "fldawVAi9MNBTtXBs",
+                                           "fieldIdInLinkedTable":  "fld4dZDOUsz0bioZs",
+                                           "result":  {
+                                                          "type":  "singleLineText"
+                                                      }
+                                       },
+                           "id":  "fld7KNSMtUtWUFIWJ",
+                           "name":  "Driver Name (from Submission)"
+                       },
+                       {
+                           "type":  "singleSelect",
+                           "options":  {
+                                           "choices":  [
+                                                           {
+                                                               "id":  "sel5F2m5mqhAYAS2w",
+                                                               "name":  "Pending",
+                                                               "color":  "blueLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selF58T5iG81d4jKF",
+                                                               "name":  "Processing",
+                                                               "color":  "cyanLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selv4YxAQe7A2rKQ6",
+                                                               "name":  "Completed",
+                                                               "color":  "tealLight2"
+                                                           }
+                                                       ]
+                                       },
+                           "id":  "fldcfkyGHcUyYP2I3",
+                           "name":  "ProcessingState"
+                       },
+                       {
+                           "type":  "lastModifiedTime",
+                           "options":  {
+                                           "isValid":  true,
+                                           "referencedFieldIds":  [
+
+                                                                  ],
+                                           "result":  {
+                                                          "type":  "dateTime",
+                                                          "options":  {
+                                                                          "dateFormat":  {
+                                                                                             "name":  "local",
+                                                                                             "format":  "l"
+                                                                                         },
+                                                                          "timeFormat":  {
+                                                                                             "name":  "12hour",
+                                                                                             "format":  "h:mma"
+                                                                                         },
+                                                                          "timeZone":  "client"
+                                                                      }
+                                                      }
+                                       },
+                           "id":  "fldBNhX9IrDinb5On",
+                           "name":  "ResolutionModifiedAt"
+                       }
+                   ],
+        "views":  [
+                      {
+                          "id":  "viwlG1hsHcSJ8BMJQ",
+                          "name":  "Grid view",
+                          "type":  "grid"
+                      }
+                  ]
+    },
+    {
+        "id":  "tblNG78Z7KdJdj5F6",
+        "name":  "Notification",
+        "primaryFieldId":  "flddwwEMM19JD2jrT",
+        "fields":  [
+                       {
+                           "type":  "email",
+                           "id":  "flddwwEMM19JD2jrT",
+                           "name":  "Email"
+                       },
+                       {
+                           "type":  "multilineText",
+                           "id":  "fldl2bkavNnrz6b3J",
+                           "name":  "Notes"
+                       },
+                       {
+                           "type":  "singleCollaborator",
+                           "id":  "fldlyx1dgNS0n4BC2",
+                           "name":  "Assignee"
+                       },
+                       {
+                           "type":  "singleSelect",
+                           "options":  {
+                                           "choices":  [
+                                                           {
+                                                               "id":  "selD5ICrcj6Ohrt9l",
+                                                               "name":  "Todo",
+                                                               "color":  "redLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selznHt9wop7BHWww",
+                                                               "name":  "In progress",
+                                                               "color":  "yellowLight2"
+                                                           },
+                                                           {
+                                                               "id":  "selBcewGblwOTk51W",
+                                                               "name":  "Done",
+                                                               "color":  "greenLight2"
+                                                           }
+                                                       ]
+                                       },
+                           "id":  "fldHlfv9oDLqVGN7v",
+                           "name":  "Status"
+                       },
+                       {
+                           "type":  "multipleAttachments",
+                           "options":  {
+                                           "isReversed":  false
+                                       },
+                           "id":  "fldqK7MhjiJiwWS7C",
+                           "name":  "Attachments"
+                       },
+                       {
+                           "type":  "aiText",
+                           "options":  {
+                                           "referencedFieldIds":  [
+                                                                      "fldqK7MhjiJiwWS7C"
+                                                                  ],
+                                           "prompt":  [
+                                                          "You are a professional document analyst specializing in summarizing content from various file types. Your task is to extract key points and provide a concise summary of the content found in the attached files. Ensure that the summary captures the main ideas and any important details without including unnecessary information.\n\nAnalyze the content of the attached files to identify the main themes and significant details. Summarize these points clearly and concisely, ensuring that the summary is informative and relevant to the document\u0027s purpose.\n\nFormat your response as plain text, keeping it concise and to the point. If you cannot summarize the content, output \"Unable to summarize the content.\" Example: \"The document discusses the impact of climate change on polar bears, highlighting the loss of habitat and food sources.\" (Real examples should be longer and more detailed.)\n\nFiles:\n",
+                                                          {
+                                                              "field":  {
+                                                                            "fieldId":  "fldqK7MhjiJiwWS7C"
+                                                                        }
+                                                          }
+                                                      ]
+                                       },
+                           "id":  "fldPx9JJd62pMeBwv",
+                           "name":  "Attachment Summary",
+                           "description":  "An AI generated summary of the Attachments field. Upload files to Attachments to generate a summary."
+                       }
+                   ],
+        "views":  [
+                      {
+                          "id":  "viw0o6QBV7kmwEj6P",
+                          "name":  "Grid view",
+                          "type":  "grid"
+                      }
+                  ]
+    },
+    {
+        "id":  "tblGbGrM86Vo5Zkbf",
+        "name":  "POD Submissions",
+        "primaryFieldId":  "fldeEO2EM2OvVRfcg",
+        "fields":  [
+                       {
+                           "type":  "autoNumber",
+                           "id":  "fldeEO2EM2OvVRfcg",
+                           "name":  "Submission ID"
+                       },
+                       {
+                           "type":  "formula",
+                           "options":  {
+                                           "isValid":  true,
+                                           "formula":  "\"POD-\" \u0026 REPT(\"0\", MAX(0, 6 - LEN({fldeEO2EM2OvVRfcg} \u0026 \"\"))) \u0026 {fldeEO2EM2OvVRfcg}",
+                                           "referencedFieldIds":  [
+                                                                      "fldeEO2EM2OvVRfcg"
+                                                                  ],
+                                           "result":  {
+                                                          "type":  "singleLineText"
+                                                      }
+                                       },
+                           "id":  "fldGAJiroibX62hoM",
+                           "name":  "Submission Reference",
+                           "description":  "Generates a zero-padded POD reference like POD-000001 using Submission ID."
+                       },
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fld4dZDOUsz0bioZs",
+                           "name":  "Driver Name",
+                           "description":  "Name of the driver submitting the POD"
+                       },
+                       {
+                           "type":  "email",
+                           "id":  "fld4V2Yfw73us4qG0",
+                           "name":  "Driver Email",
+                           "description":  "Email address of the authenticated Softr user"
+                       },
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fldLJQh86prBYiMFl",
+                           "name":  "Driver User ID",
+                           "description":  "Unique identifier of the authenticated Softr user"
+                       },
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fldFaCFuuSiCqRuEp",
+                           "name":  "Submission Date"
+                       },
+                       {
+                           "type":  "singleSelect",
+                           "options":  {
+                                           "choices":  [
+                                                           {
+                                                               "id":  "selXt8nyqlrOeC35d",
+                                                               "name":  "Received",
+                                                               "color":  "grayBright"
+                                                           },
+                                                           {
+                                                               "id":  "sel5a9HqLA6WapIeQ",
+                                                               "name":  "Processing",
+                                                               "color":  "blueBright"
+                                                           },
+                                                           {
+                                                               "id":  "selWhs4VMnUZryWF7",
+                                                               "name":  "Completed",
+                                                               "color":  "greenBright"
+                                                           },
+                                                           {
+                                                               "id":  "selxTUvMdo10UScTY",
+                                                               "name":  "Exception",
+                                                               "color":  "orangeBright"
+                                                           },
+                                                           {
+                                                               "id":  "selgqtxwiosjSp49C",
+                                                               "name":  "Failed",
+                                                               "color":  "redBright"
+                                                           },
+                                                           {
+                                                               "id":  "selT3Y7SYdlOMkGSP",
+                                                               "name":  "Resubmission Required",
+                                                               "color":  "blueLight2"
+                                                           }
+                                                       ]
+                                       },
+                           "id":  "fld3CB1rT2ZbLOhq0",
+                           "name":  "Submission Status"
+                       },
+                       {
+                           "type":  "multipleRecordLinks",
+                           "options":  {
+                                           "linkedTableId":  "tblcDiTTZmgyJ2Hvr",
+                                           "isReversed":  false,
+                                           "prefersSingleRecordLink":  false,
+                                           "inverseLinkFieldId":  "fld7bUKdTwioQwquh"
+                                       },
+                           "id":  "fldcWBiWkTW2RLSY8",
+                           "name":  "Link To Load"
+                       },
+                       {
+                           "type":  "multipleRecordLinks",
+                           "options":  {
+                                           "linkedTableId":  "tblghWSyHgIl3Xv3j",
+                                           "isReversed":  false,
+                                           "prefersSingleRecordLink":  false,
+                                           "inverseLinkFieldId":  "fldo1wwqeLkQzJPUs"
+                                       },
+                           "id":  "fldWJ3wV4ydEpEvYq",
+                           "name":  "Link To Exception"
+                       },
+                       {
+                           "type":  "url",
+                           "id":  "fldRe8MBC3qaWYe57",
+                           "name":  "Doc Link",
+                           "description":  "Google Drive link to the submitted POD document"
+                       },
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fldqqBvcUI44WQQpr",
+                           "name":  "Original Filename"
+                       },
+                       {
+                           "type":  "singleLineText",
+                           "id":  "fld44sktUFIH8fqM3",
+                           "name":  "Extracted Load Number",
+                           "description":  "Load number extracted by OpenAI"
+                       },
+                       {
+                           "type":  "multilineText",
+                           "id":  "fldCA2mX6F06vbOAH",
+                           "name":  "Processing Error",
+                           "description":  "Technical errors or validation failure details"
+                       },
+                       {
+                           "type":  "multipleRecordLinks",
+                           "options":  {
+                                           "linkedTableId":  "tblghWSyHgIl3Xv3j",
+                                           "isReversed":  false,
+                                           "prefersSingleRecordLink":  false,
+                                           "inverseLinkFieldId":  "fldawVAi9MNBTtXBs"
+                                       },
+                           "id":  "fldOk2JCVkmYenUlP",
+                           "name":  "POD Exceptions"
+                       }
+                   ],
+        "views":  [
+                      {
+                          "id":  "viw8J5otJrv1PGswh",
+                          "name":  "Grid view",
+                          "type":  "grid"
+                      }
+                  ]
+    }
+]
