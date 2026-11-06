@@ -47,6 +47,16 @@ function getTableConfig(tableName: string) {
   return table
 }
 
+const AIRTABLE_TABLE_NAMES: Record<string, string> = {
+  loads: 'Loads',
+  submissions: 'POD Submissions',
+  exceptions: 'POD Exceptions',
+}
+
+function resolveAirtableTableName(logicalName: string): string {
+  return AIRTABLE_TABLE_NAMES[logicalName] ?? logicalName
+}
+
 function airtableBase() {
   const baseId = process.env.AIRTABLE_BASE_ID
   const token = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN
@@ -75,7 +85,17 @@ async function airtableFetch<T>(path: string, init?: RequestInit): Promise<T> {
 
   if (response.status === 429) throw new AirtableIntegrationError('rate_limited')
   if (response.status === 404) throw new AirtableIntegrationError('not_found')
-  if (!response.ok) throw new AirtableIntegrationError('upstream_error')
+  if (!response.ok) {
+    const errorBody = await response.text()
+
+    console.error(
+      `[Airtable API] HTTP ${response.status} | Table: ${path.split('?')[0]} | Error: ${errorBody.slice(0, 1000)}`
+    )
+
+    throw new AirtableIntegrationError('upstream_error')
+  }
+
+  // IMPORTANT: Return the response on success
   try {
     return (await response.json()) as T
   } catch {
@@ -97,7 +117,12 @@ export async function listCompanyRecords(
   options: { recordId?: string; maxRecords?: number } = {},
 ): Promise<AirtableRecord[]> {
   const table = getTableConfig(tableName)
-  const maxRecords = Math.min(Math.max(options.maxRecords ?? 100, 1), 1000)
+  const physicalTableName = resolveAirtableTableName(tableName)
+
+  const maxRecords = Math.min(
+    Math.max(options.maxRecords ?? 100, 1),
+    1000
+  )
   const params = new URLSearchParams({ pageSize: '100' })
 
   if (options.recordId) {
@@ -119,7 +144,7 @@ export async function listCompanyRecords(
     const query = await airtableFetch<{
       records?: AirtableRecord[]
       offset?: string
-    }>(`${encodeURIComponent(tableName)}?${params.toString()}`)
+    }>(`${encodeURIComponent(physicalTableName)}?${params.toString()}`)
 
     if (!Array.isArray(query.records)) {
       throw new AirtableIntegrationError('upstream_error')
@@ -168,7 +193,7 @@ export async function updateCompanyRecord(
   }
 
   return airtableFetch<AirtableRecord>(
-    `${encodeURIComponent(tableName)}/${encodeURIComponent(recordId)}`,
+    `${encodeURIComponent(resolveAirtableTableName(tableName))}/${encodeURIComponent(recordId)}`,
     {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },

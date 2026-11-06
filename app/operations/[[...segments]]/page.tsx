@@ -13,6 +13,8 @@ import { requirePortalUser } from '@/lib/auth/access'
 import { getIntegrationReadiness } from '@/lib/integrations/readiness'
 import { createClient } from '@/lib/supabase/server'
 import type { ManagedUser } from '@/lib/types'
+import { getOperationsOverview } from '@/lib/operations/overview'
+import { OverviewDashboard } from '@/components/operations/overview-dashboard'
 
 const operationalSections: Record<string, { title: string; description: string; icon: typeof Truck }> = {
   loads: { title: 'All loads', description: 'Search and review delivery records for your company.', icon: Truck },
@@ -66,37 +68,41 @@ export default async function OperationsPage({ params }: { params: Promise<{ seg
   }
 
   const readiness = getIntegrationReadiness()
+  const overview = await getOperationsOverview()
   return (
-    <div className="flex flex-col gap-7">
-      <PageHeading eyebrow="Operations workspace" title="Operations overview" description={`A clear view of the ${profile.companyName} POD workflow.`} />
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <SummaryCard title="Loads" icon={Truck} /><SummaryCard title="Invoice-ready" icon={FileCheck2} /><SummaryCard title="Open exceptions" icon={CircleAlert} /><SummaryCard title="Documents" icon={Files} />
-      </section>
-      <Card className="overflow-hidden">
-        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div><CardTitle className="flex items-center gap-2"><LayoutDashboard aria-hidden="true" className="size-4 text-primary" /> Operations data</CardTitle><CardDescription className="mt-1">Live operational records are not shown until the Airtable fields and company-level filter are verified.</CardDescription></div>
-          <Badge variant={readiness.airtable.ready ? 'secondary' : 'outline'}>{readiness.airtable.ready ? 'Airtable ready' : 'Awaiting Airtable mapping'}</Badge>
-        </CardHeader>
-        <CardContent className="flex flex-wrap gap-3">
-          <Link href="/operations/loads" className={buttonVariants({ variant: 'outline' })}>View loads <ArrowRight data-icon="inline-end" aria-hidden="true" /></Link>
-          <Link href="/operations/exceptions" className={buttonVariants({ variant: 'outline' })}>Review exceptions <ArrowRight data-icon="inline-end" aria-hidden="true" /></Link>
-          {profile.isAdmin ? <Link href="/operations/users" className={buttonVariants({ variant: 'outline' })}><Users data-icon="inline-start" aria-hidden="true" /> Manage users</Link> : null}
-        </CardContent>
-      </Card>
-      <IntegrationReadinessPanel readiness={readiness} audience="operations" />
-      <Card>
-        <CardHeader><CardTitle className="text-base">Existing workflow boundary</CardTitle><CardDescription>The portal is designed to work with your current Airtable and Make.com setup.</CardDescription></CardHeader>
-        <CardContent className="text-sm leading-6 text-muted-foreground">POD intake and exception updates remain gated until the actual field mapping, tenant filter, webhook binary format, and duplicate handling are confirmed. No sample or fabricated business records are displayed.</CardContent>
-      </Card>
-    </div>
+    <OverviewDashboard
+      totalSubmissions={overview.totalSubmissions}
+      invoiceReady={overview.invoiceReady}
+      openExceptions={overview.openExceptions}
+      pendingProcessing={overview.pendingProcessing}
+      recentSubmissions={overview.recentSubmissions}
+      recentExceptions={overview.recentExceptions}
+    />
   )
 }
 
-function SummaryCard({ title, icon: Icon }: { title: string; icon: typeof Truck }) {
+function SummaryCard({
+  title,
+  value,
+  icon: Icon,
+}: {
+  title: string
+  value: number
+  icon: typeof Truck
+}) {
   return (
     <Card>
-      <CardHeader className="flex flex-row items-start justify-between gap-3 pb-2"><div><CardDescription>{title}</CardDescription><CardTitle className="mt-2 text-xl text-muted-foreground">—</CardTitle></div><span className="grid size-9 place-items-center rounded-lg bg-secondary text-primary"><Icon aria-hidden="true" className="size-4" /></span></CardHeader>
-      <CardContent><p className="text-xs text-muted-foreground">Waiting for verified Airtable data</p></CardContent>
+      <CardHeader className="flex flex-row items-start justify-between gap-3 pb-2">
+        <div>
+          <CardDescription>{title}</CardDescription>
+          <CardTitle className="mt-2 text-2xl">
+            {value.toLocaleString()}
+          </CardTitle>
+        </div>
+        <span className="grid size-9 place-items-center rounded-lg bg-secondary text-primary">
+          <Icon aria-hidden="true" className="size-4" />
+        </span>
+      </CardHeader>
     </Card>
   )
 }
