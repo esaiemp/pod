@@ -15,6 +15,8 @@ import { createClient } from '@/lib/supabase/server'
 import type { ManagedUser } from '@/lib/types'
 import { getOperationsOverview } from '@/lib/operations/overview'
 import { OverviewDashboard } from '@/components/operations/overview-dashboard'
+import { ExceptionsDashboard } from '@/components/operations/exceptions-dashboard'
+import { getPodExceptions } from '@/lib/operations/exception'
 
 const operationalSections: Record<string, { title: string; description: string; icon: typeof Truck }> = {
   loads: { title: 'All loads', description: 'Search and review delivery records for your company.', icon: Truck },
@@ -23,52 +25,99 @@ const operationalSections: Record<string, { title: string; description: string; 
   documents: { title: 'Documents', description: 'Browse POD files and supporting delivery documents.', icon: Files },
 }
 
-export default async function OperationsPage({ params }: { params: Promise<{ segments?: string[] }> }) {
+export default async function OperationsPage({
+  params,
+}: {
+  params: Promise<{ segments?: string[] }>
+}) {
   const { segments = [] } = await params
   const profile = await requirePortalUser('BackOffice')
 
+  // 1. POD Exceptions
+  if (segments.length === 1 && segments[0] === 'exceptions') {
+    const exceptions = await getPodExceptions()
+
+    return <ExceptionsDashboard exceptions={exceptions} />
+  }
+
+  // 2. User management (Admin only)
   if (segments[0] === 'users') {
     if (!profile.isAdmin) redirect('/unauthorized')
+
     if (segments.length === 1) {
       const users = await loadManagedUsers(profile.companyId)
+
       return (
         <div className="flex flex-col gap-6">
-          <PageHeading eyebrow="Administration" title="User management" description={`Manage workspace roles and access for ${profile.companyName}.`} />
+          <PageHeading
+            eyebrow="Administration"
+            title="User management"
+            description={`Manage workspace roles and access for ${profile.companyName}.`}
+          />
           <UserDirectory users={users} />
         </div>
       )
     }
+
     if (segments.length === 2 && segments[1] === 'new') {
       return (
         <div className="flex flex-col gap-6">
-          <PageHeading eyebrow="Administration" title="Add a user" description="Create a company-scoped portal account." />
+          <PageHeading
+            eyebrow="Administration"
+            title="Add a user"
+            description="Create a company-scoped portal account."
+          />
           <AdminUserForm companyName={profile.companyName} />
         </div>
       )
     }
+
     if (segments.length === 2) {
-      const user = await loadManagedUser(profile.companyId, segments[1])
+      const user = await loadManagedUser(
+        profile.companyId,
+        segments[1]
+      )
+
       if (!user) notFound()
+
       return (
         <div className="flex flex-col gap-6">
-          <PageHeading eyebrow="Administration" title={user.fullName} description="Update this user’s workspace access and legacy driver mapping." />
-          <AdminUserForm user={user} companyName={profile.companyName} />
+          <PageHeading
+            eyebrow="Administration"
+            title={user.fullName}
+            description="Update this user's workspace access."
+          />
+          <AdminUserForm
+            user={user}
+            companyName={profile.companyName}
+          />
         </div>
       )
     }
+
     notFound()
   }
 
+  // 3. Other operational sections
   if (segments.length > 1) notFound()
-  if (segments.length === 1 && !operationalSections[segments[0]]) notFound()
 
   if (segments.length === 1) {
     const section = operationalSections[segments[0]]
-    return <BusinessDataPending title={section.title} description={section.description} icon={section.icon} />
+
+    if (!section) notFound()
+
+    return (
+      <BusinessDataPending
+        title={section.title}
+        description={section.description}
+        icon={section.icon}
+      />
+    )
   }
 
-  const readiness = getIntegrationReadiness()
+  // 4. Operations overview
   const overview = await getOperationsOverview()
+
   return (
     <OverviewDashboard
       totalSubmissions={overview.totalSubmissions}
