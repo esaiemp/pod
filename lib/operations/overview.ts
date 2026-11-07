@@ -45,6 +45,13 @@ export async function getOperationsOverview() {
     listCompanyRecords('exceptions', '', { maxRecords: 1000 }),
   ])
 
+  const loadNumberById = new Map(
+    loads.map((record) => [
+      record.id,
+      asString(record.fields.LoadNumber),
+    ])
+  )
+
   // 1. Invoice-ready loads
   const invoiceReady = loads.filter(
     (record) =>
@@ -89,34 +96,43 @@ export async function getOperationsOverview() {
 
   // 4. Recent POD submissions
   const recentSubmissions = submissions
-  .map((record) => ({
-    id: record.id,
-    reference: asString(
-      record.fields['Submission Reference']
-    ),
-    driverName: asString(
-      record.fields['Driver Name']
-    ),
-    loadNumber: null as string | null,
-    submittedAt: asString(
-      record.fields['Submission Date']
-    ) || null,
-    status: asString(
-      record.fields['Submission Status']
-    ) || 'Unknown',
-    documentUrl: asString(
-      record.fields['Doc Link']
-    ) || null,
-    loadIds: asLinks(
+  .map((record) => {
+    const linkedLoadIds = asLinks(
       record.fields['Link To Load']
-    ),
-  }))
+    )
+
+    const loadNumbers = linkedLoadIds
+      .map((id) => loadNumberById.get(id))
+      .filter(
+        (value): value is string =>
+          typeof value === 'string' &&
+          value.trim().length > 0
+      )
+
+    return {
+      id: record.id,
+      reference: asString(
+        record.fields['Submission Reference']
+      ),
+      driverName: asString(
+        record.fields['Driver Name']
+      ),
+      loadNumber: loadNumbers.join(', ') || null,
+      submittedAt:
+        asString(record.fields['Submission Date']) || null,
+      status:
+        asString(record.fields['Submission Status']) || 'Unknown',
+      documentUrl:
+        asString(record.fields['Doc Link']) || null,
+      loadIds: linkedLoadIds,
+    }
+  })
   .sort(
     (a, b) =>
       timestamp(b.submittedAt ?? '') -
       timestamp(a.submittedAt ?? '')
   )
-  .slice(0, 10)
+  .slice(0, 100)
 
   // 5. Exceptions requiring attention
   const recentExceptions = openExceptionRecords

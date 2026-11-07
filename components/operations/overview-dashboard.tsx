@@ -1,4 +1,6 @@
+'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import {
   ArrowRight,
@@ -6,6 +8,8 @@ import {
   Clock3,
   FileCheck2,
   Files,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react'
 
 import {
@@ -20,6 +24,8 @@ import type {
   RecentPodSubmission,
   RecentPodException,
 } from '@/lib/operations/overview'
+
+import { TablePagination } from '@/components/operations/table-pagination'
 
 type DashboardProps = {
   totalSubmissions: number
@@ -98,6 +104,21 @@ export function OverviewDashboard({
     },
   ]
 
+  const PAGE_SIZE = 4
+
+  const [submissionsPage, setSubmissionsPage] = useState(1)
+  const [exceptionsPage, setExceptionsPage] = useState(1)
+
+  const paginatedSubmissions = recentSubmissions.slice(
+    (submissionsPage - 1) * PAGE_SIZE,
+    submissionsPage * PAGE_SIZE
+  )
+
+  const paginatedExceptions = recentExceptions.slice(
+    (exceptionsPage - 1) * PAGE_SIZE,
+    exceptionsPage * PAGE_SIZE
+  )
+
   return (
     <div className="flex flex-col gap-7">
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -146,7 +167,7 @@ export function OverviewDashboard({
                 </tr>
               </thead>
               <tbody>
-                {recentSubmissions.map((submission) => (
+                {paginatedSubmissions.map((submission) => (
                   <tr
                     key={submission.id}
                     className="border-b last:border-0 hover:bg-muted/40"
@@ -158,8 +179,16 @@ export function OverviewDashboard({
                       {submission.driverName}
                     </td>
                     <td className="px-3 py-4">
-                      {submission.loadNumber ?? '—'}
-                    </td>
+                      {submission.loadNumber ? (
+                        <span className="font-medium">
+                          {submission.loadNumber}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground">
+                          Not linked
+                        </span>
+                      )}
+                  </td>
                     <td className="px-3 py-4">
                       {formatDate(submission.submittedAt)}
                     </td>
@@ -184,6 +213,12 @@ export function OverviewDashboard({
                 ))}
               </tbody>
             </table>
+            <TablePagination
+              page={submissionsPage}
+              totalItems={recentSubmissions.length}
+              pageSize={PAGE_SIZE}
+              onPageChange={setSubmissionsPage}
+            />
             {recentSubmissions.length === 0 && (
               <p className="py-8 text-center text-sm text-muted-foreground">
                 No POD submissions available.
@@ -216,7 +251,7 @@ export function OverviewDashboard({
                 </tr>
               </thead>
               <tbody>
-                {recentExceptions.map((exception) => (
+                {paginatedExceptions.map((exception) => (
                   <tr
                     key={exception.id}
                     className="border-b last:border-0 hover:bg-muted/40"
@@ -251,6 +286,12 @@ export function OverviewDashboard({
                 ))}
               </tbody>
             </table>
+            <TablePagination
+              page={exceptionsPage}
+              totalItems={recentExceptions.length}
+              pageSize={PAGE_SIZE}
+              onPageChange={setExceptionsPage}
+            />
             {recentExceptions.length === 0 && (
               <p className="py-8 text-center text-sm text-muted-foreground">
                 No open exceptions.
