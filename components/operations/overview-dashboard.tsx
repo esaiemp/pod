@@ -146,10 +146,7 @@ export function OverviewDashboard({
       <Card>
         <CardHeader className="flex flex-row items-center justify-between gap-3">
           <CardTitle>Recent POD submissions</CardTitle>
-          <Link
-            href="/operations/documents"
-            className="flex items-center gap-1 text-sm font-medium text-primary hover:underline"
-          >
+          <Link href="/operations/submissions">
             View all <ArrowRight className="size-4" />
           </Link>
         </CardHeader>

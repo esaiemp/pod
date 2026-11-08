@@ -20,6 +20,9 @@ import { getPodExceptions } from '@/lib/operations/exception'
 import { LoadsDashboard } from '@/components/operations/loads-dashboard'
 import { getPodLoads } from '@/lib/operations/load'
 
+import { SubmissionsDashboard } from '@/components/operations/submissions-dashboard'
+import { getPodSubmissions } from '@/lib/operations/submissions'
+
 const operationalSections: Record<string, { title: string; description: string; icon: typeof Truck }> = {
   loads: { title: 'All loads', description: 'Search and review delivery records for your company.', icon: Truck },
   'invoice-ready': { title: 'Invoice-ready', description: 'Review loads that are ready for invoicing.', icon: FileCheck2 },
@@ -35,14 +38,21 @@ export default async function OperationsPage({
   const { segments = [] } = await params
   const profile = await requirePortalUser('BackOffice')
 
- // 1. All Loads — live Airtable data
+ // 1. All Loads
   if (segments.length === 1 && segments[0] === 'loads') {
     const loads = await getPodLoads()
 
     return <LoadsDashboard loads={loads} />
   }
 
-  // 2. POD Exceptions — live Airtable data
+  // 2. All POD Submissions
+  if (segments.length === 1 && segments[0] === 'submissions') {
+    const submissions = await getPodSubmissions()
+
+    return <SubmissionsDashboard submissions={submissions} />
+  }
+
+  // 3. POD Exceptions
   if (segments.length === 1 && segments[0] === 'exceptions') {
     const exceptions = await getPodExceptions()
 

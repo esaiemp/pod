@@ -6,7 +6,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import {
   Activity,
   ClipboardCheck,
-  FileCheck2,
   FolderOpen,
   LayoutDashboard,
   ListChecks,
@@ -37,11 +36,32 @@ const driverItems = [
 ]
 
 const operationsItems = [
-  { href: '/operations', label: 'Overview', icon: LayoutDashboard, exact: true },
-  { href: '/operations/loads', label: 'All loads', icon: Truck },
-  { href: '/operations/invoice-ready', label: 'Invoice-ready', icon: FileCheck2 },
-  { href: '/operations/exceptions', label: 'POD exceptions', icon: Activity },
-  { href: '/operations/documents', label: 'Documents', icon: FolderOpen },
+  {
+    href: '/operations',
+    label: 'Overview',
+    icon: LayoutDashboard,
+    exact: true,
+  },
+  {
+    href: '/operations/loads',
+    label: 'All loads',
+    icon: Truck,
+  },
+  {
+    href: '/operations/submissions',
+    label: 'POD submissions',
+    icon: ListChecks,
+  },
+  {
+    href: '/operations/exceptions',
+    label: 'POD exceptions',
+    icon: Activity,
+  },
+  {
+    href: '/operations/documents',
+    label: 'Documents',
+    icon: FolderOpen,
+  },
 ]
 
 function initials(name: string) {
