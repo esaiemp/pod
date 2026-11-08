@@ -17,6 +17,8 @@ import { getOperationsOverview } from '@/lib/operations/overview'
 import { OverviewDashboard } from '@/components/operations/overview-dashboard'
 import { ExceptionsDashboard } from '@/components/operations/exceptions-dashboard'
 import { getPodExceptions } from '@/lib/operations/exception'
+import { LoadsDashboard } from '@/components/operations/loads-dashboard'
+import { getPodLoads } from '@/lib/operations/load'
 
 const operationalSections: Record<string, { title: string; description: string; icon: typeof Truck }> = {
   loads: { title: 'All loads', description: 'Search and review delivery records for your company.', icon: Truck },
@@ -33,13 +35,20 @@ export default async function OperationsPage({
   const { segments = [] } = await params
   const profile = await requirePortalUser('BackOffice')
 
-  // 1. POD Exceptions
+ // 1. All Loads — live Airtable data
+  if (segments.length === 1 && segments[0] === 'loads') {
+    const loads = await getPodLoads()
+
+    return <LoadsDashboard loads={loads} />
+  }
+
+  // 2. POD Exceptions — live Airtable data
   if (segments.length === 1 && segments[0] === 'exceptions') {
     const exceptions = await getPodExceptions()
 
     return <ExceptionsDashboard exceptions={exceptions} />
   }
-
+  
   // 2. User management (Admin only)
   if (segments[0] === 'users') {
     if (!profile.isAdmin) redirect('/unauthorized')

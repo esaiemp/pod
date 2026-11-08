@@ -254,3 +254,61 @@ export async function listDriverSubmissions(
 
   return records
 }
+
+export async function getDriverException(
+  driverEmail: string,
+  exceptionRecordId: string,
+): Promise<AirtableRecord | null> {
+  if (!/^rec[A-Za-z0-9]+$/.test(exceptionRecordId)) {
+    return null
+  }
+
+  const submissions = await listDriverSubmissions(
+    driverEmail,
+    1000,
+  )
+
+  const submissionsTable = getTableConfig('submissions')
+
+  // Resolve the physical Airtable field name.
+  const linkFieldName =
+    submissionsTable.fields.linkToException ??
+    'Link To Exception'
+
+  const ownsLinkedSubmission = submissions.some(
+    (submission) => {
+      const linkedExceptions =
+        submission.fields[linkFieldName]
+
+      return (
+        Array.isArray(linkedExceptions) &&
+        linkedExceptions.some(
+          (id) => id === exceptionRecordId,
+        )
+      )
+    },
+  )
+
+  if (!ownsLinkedSubmission) {
+    console.warn(
+      '[Driver Exception] No linked submission found for requested exception.',
+    )
+
+    return null
+  }
+
+  const exceptions = await listCompanyRecords(
+    'exceptions',
+    '',
+    {
+      recordId: exceptionRecordId,
+      maxRecords: 1,
+    },
+  )
+
+  return (
+    exceptions.find(
+      (exception) => exception.id === exceptionRecordId,
+    ) ?? null
+  )
+}

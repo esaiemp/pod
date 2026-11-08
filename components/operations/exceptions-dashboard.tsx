@@ -97,17 +97,17 @@ export function ExceptionsDashboard({
     const query = search.trim().toLowerCase()
 
     return records.filter((record) => {
-      const matchesSearch =
-        !query ||
-        [
-          record.loadNumber,
-          record.reason,
-          record.status,
-          record.processingState,
-          record.resolutionAction ?? '',
-          record.resolutionNotes ?? '',
-        ].some((value) => value.toLowerCase().includes(query))
-
+     const matchesSearch = !query ||
+      [
+        record.loadNumber,
+        record.reason,
+        record.status,
+        record.processingState,
+        record.resolutionAction,
+        record.resolutionNotes,
+      ].some((value) =>
+        (value ?? '').toLowerCase().includes(query)
+      )
       const matchesStatus =
         statusFilter === 'all' || record.status === statusFilter
 
