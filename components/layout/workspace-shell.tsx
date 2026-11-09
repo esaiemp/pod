@@ -57,11 +57,6 @@ const operationsItems = [
     label: 'POD exceptions',
     icon: Activity,
   },
-  {
-    href: '/operations/documents',
-    label: 'Documents',
-    icon: FolderOpen,
-  },
 ]
 
 function initials(name: string) {
